@@ -140,6 +140,14 @@ class Bomb:
         self.rct.move_ip(self.vx, self.vy)
         screen.blit(self.img, self.rct)
 
+class Explosion:
+    """
+    爆発エフェクトのクラス
+    """
+    def __init__(self):
+        self.img1=pg.image.load(f"fig/explosion.gif")
+        self.img2=pg.transform.flip(self.img1,True,True)
+        self.Eplo_list=[self.img1,self.img2]
 
 class Score:
     """""
@@ -197,13 +205,15 @@ def main():
                             m_beam[j]=None
                             score.Score+=1
                             bird.change_img(6,screen)
+
+        m_beam=[beam for beam in m_beam if beam]
         
         for j in range(len(m_beam)):
             
             if not check_bound(m_beam[j].rct) == (True,True):
-                m_beam.remove(m_beam[j])
-            if m_beam[j] == None:
-                m_beam.remove(m_beam[j])
+                m_beam[j]=None
+
+        m_beam=[beam for beam in m_beam if beam]
 
         key_lst = pg.key.get_pressed()
         bird.update(key_lst, screen)
